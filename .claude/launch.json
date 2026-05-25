@@ -1,0 +1,12 @@
+﻿{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "barbershop",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--", "--port", "3002"],
+      "port": 3002,
+      "cwd": "C:\\Users\\User\\Downloads\\barbershop-booking-export-2\\barbershop-booking"
+    }
+  ]
+}

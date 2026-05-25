@@ -1,0 +1,244 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink:         #100c08;
+  --color-ink-deep:    #0a0806;
+  --color-ink-mid:     #0e0a07;
+  --color-ink-raised:  #1a0d10;
+  --color-burgundy:    #95122c;
+  --color-burgundy-br: #be1a3f;
+  --color-warm-white:  #f5f0eb;
+  --color-muted:       #a09080;
+
+  --font-display: var(--font-cormorant), 'Georgia', serif;
+  --font-sans:    var(--font-inter), system-ui, sans-serif;
+}
+
+/* ─── Reset / Base ───────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #100c08;
+  color: #f5f0eb;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(149, 18, 44, 0.40);
+  color: #f5f0eb;
+}
+
+/* ─── Typography ─────────────────────────────────────────── */
+
+.font-display { font-family: var(--font-display); }
+
+/* ─── Global grain overlay (fixed, full-viewport) ──────── */
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  opacity: 0.032;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Keep .grain sections — their ::before still adds localised grain at higher opacity */
+.grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────── */
+
+::-webkit-scrollbar       { width: 3px; }
+::-webkit-scrollbar-track { background: #0a0806; }
+::-webkit-scrollbar-thumb { background: #95122c; border-radius: 2px; }
+
+/* ─── Ambient glow helpers ───────────────────────────────── */
+
+.burgundy-glow {
+  background: radial-gradient(ellipse 80% 50% at 50% 100%, rgba(149,18,44,0.18) 0%, transparent 70%);
+}
+.ambient-glow-top {
+  background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(149,18,44,0.12) 0%, transparent 70%);
+}
+.glow-center {
+  background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(149,18,44,0.10) 0%, transparent 70%);
+}
+
+/* ─── Perspective utility ───────────────────────────────── */
+
+.perspective-1200 { perspective: 1200px; }
+
+/* ─── Button system ─────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: background-color 400ms cubic-bezier(0.25,0.1,0.25,1),
+              color            300ms ease,
+              border-color     300ms ease,
+              box-shadow       300ms ease,
+              opacity          300ms ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.btn:disabled { opacity: 0.32; cursor: not-allowed; }
+
+/* Primary — burgundy fill */
+.btn-primary {
+  background: #95122c;
+  color: #f5f0eb;
+  border-color: #95122c;
+  padding: 0.8rem 2.4rem;
+}
+.btn-primary:not(:disabled):hover {
+  background: #be1a3f;
+  border-color: #be1a3f;
+  box-shadow: 0 0 28px rgba(149,18,44,0.35);
+}
+
+/* Outline — transparent with burgundy border */
+.btn-outline {
+  background: transparent;
+  color: #f5f0eb;
+  border-color: rgba(149,18,44,0.50);
+  padding: 0.75rem 2rem;
+}
+.btn-outline:not(:disabled):hover {
+  background: #95122c;
+  border-color: #95122c;
+  color: #fff;
+  box-shadow: 0 0 24px rgba(149,18,44,0.28);
+}
+
+/* Ghost — transparent, subtle border */
+.btn-ghost {
+  background: transparent;
+  color: rgba(160,144,128,0.9);
+  border-color: rgba(255,255,255,0.10);
+  padding: 0.75rem 1.6rem;
+}
+.btn-ghost:not(:disabled):hover {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.18);
+  color: #f5f0eb;
+}
+
+/* Compact variants */
+.btn-sm { padding: 0.5rem 1.2rem; font-size: 0.6rem; }
+
+/* ─── Input system ──────────────────────────────────────── */
+
+.input-luxury {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 0.5rem;
+  padding: 0.8rem 1rem;
+  font-size: 0.9rem;
+  color: #f5f0eb;
+  font-family: var(--font-sans);
+  transition: border-color 300ms ease, box-shadow 300ms ease, background 300ms ease;
+  outline: none;
+  color-scheme: dark;
+}
+.input-luxury::placeholder { color: rgba(160,144,128,0.45); }
+.input-luxury:focus {
+  border-color: rgba(149,18,44,0.50);
+  background: rgba(255,255,255,0.05);
+  box-shadow: 0 0 0 3px rgba(149,18,44,0.08);
+}
+.input-luxury.input-error { border-color: rgba(149,18,44,0.55); }
+
+/* ─── Card / Panel ──────────────────────────────────────── */
+
+.card-luxury {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 1rem;
+  transition: background 400ms ease, border-color 400ms ease, box-shadow 400ms ease;
+}
+.card-luxury:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.11);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+}
+.card-luxury-glow:hover {
+  box-shadow: 0 24px 60px rgba(0,0,0,0.35),
+              0 0 40px rgba(149,18,44,0.08);
+  border-color: rgba(149,18,44,0.20);
+}
+
+/* ─── Divider ────────────────────────────────────────────── */
+
+.divider-burgundy {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(149,18,44,0.35), transparent);
+}
+
+/* ─── Label / Tag ────────────────────────────────────────── */
+
+.label-overline {
+  font-size: 0.6rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: #95122c;
+  font-weight: 500;
+}
+
+/* ─── Link transitions ───────────────────────────────────── */
+
+a { transition: color 250ms ease, opacity 250ms ease; }
+
+/* ─── Booking page step slot buttons ───────────────────────*/
+
+.slot-btn {
+  padding: 0.7rem 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255,255,255,0.10);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #f5f0eb;
+  background: rgba(255,255,255,0.025);
+  transition: border-color 250ms ease, background 250ms ease, box-shadow 250ms ease;
+  cursor: pointer;
+}
+.slot-btn:hover {
+  border-color: rgba(149,18,44,0.45);
+  background: rgba(149,18,44,0.08);
+}
+.slot-btn.active {
+  border-color: #95122c;
+  background: #95122c;
+  color: #fff;
+  box-shadow: 0 0 16px rgba(149,18,44,0.30);
+}
